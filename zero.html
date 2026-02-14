@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Journey ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+    background: linear-gradient(135deg, #ff758c, #ff7eb3);
+   transition: all 1.5s ease-in-out;
+
+}
+
+/* After Start */
+.journeyStarted {
+   background: url("background.jpg.jpg") no-repeat center center/cover;
+    background-attachment: fixed;
+}
+
+/* Dark overlay */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.45);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+.journeyStarted::before { opacity: 1; }
+
+#intro {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#mainContent { display: none; }
+
+button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 25px;
+    background: white;
+    color: #ff4e8b;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 10px;
+}
+button:hover {
+    background: #ff4e8b;
+    color: white;
+    transform: scale(1.08);
+}
+
+.card {
+    background: rgba(255,255,255,0.15);
+    padding: 25px;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+/* Big Image */
+.bigPhoto img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 20px;
+    margin-top: 20px;
+}
+
+/* Glitter */
+#glitterCanvas {
+    position: fixed;
+    top: 0; left: 0;
+    pointer-events: none;
+    z-index: 1;
+    display: none;
+}
+#intro, #mainContent { position: relative; z-index: 2; }
+
+.yesBtn { background: #00ff95; color: black; }
+.noBtn { background: #ff4e4e; color: white; }
+</style>
+</head>
+
+<body>
+
+<canvas id="glitterCanvas"></canvas>
+
+<audio id="bgMusic" loop>
+<source src="your-music.mp3.mp3" type="audio/mpeg">
+</audio>
+
+<div id="intro">
+<h1>𝓛𝓮𝓽’𝓼 𝓼𝓽𝓪𝓻𝓽 𝓽𝓱𝓲𝓼 𝓳𝓸𝓾𝓻𝓷𝓮𝔂 💖</h1>
+<button onclick="startJourney()">Start 💖</button>
+</div>
+
+<div id="mainContent">
+
+<h1>𝓗𝓪𝓹𝓹𝔂 𝓥𝓪𝓵𝓮𝓷𝓽𝓲𝓷𝓮’𝓼 𝓓𝓪𝔂 💖✨</h1>
+
+<div class="card">
+<h2 id="typing"></h2>
+</div>
+
+<div class="card">
+<h2>⏳ Time Since We Started 💞</h2>
+<p id="loveTimer"></p>
+</div>
+
+<div class="card">
+<h2>🎁 Gift For You</h2>
+<button onclick="openGift()">Open Your Gift 🎀</button>
+
+<div id="giftContent" style="display:none;">
+<div class="bigPhoto">
+<img src="main.jpg.jpg">
+</div>
+<p style="margin-top:20px;">
+Every second with you is my favorite memory ❤️  
+You are my forever.
+</p>
+</div>
+</div>
+
+<div class="card">
+<h2>I already know that you'll say yes but still asking....Will You Be My Valentine? 💘</h2>
+<button class="yesBtn" onclick="yesAnswer()">YES 💖</button>
+<button class="noBtn" id="noBtn" onmouseover="moveNo()">NO 😏</button>
+<p id="response"></p>
+</div>
+
+</div>
+
+<script>
+
+// SET YOUR RELATIONSHIP DATE
+const relationshipStart = new Date("2025-05-13T01:30:00");
+
+function startJourney(){
+document.getElementById("intro").style.display="none";
+document.getElementById("mainContent").style.display="block";
+document.body.classList.add("journeyStarted");
+document.getElementById("bgMusic").play();
+document.getElementById("glitterCanvas").style.display="block";
+}
+
+// Typing Effect
+const text = "You are my today and all of my tomorrows ❤️";
+let i = 0;
+function typeWriter() {
+if (i < text.length) {
+document.getElementById("typing").innerHTML += text.charAt(i);
+i++;
+setTimeout(typeWriter, 50);
+}
+}
+typeWriter();
+
+// Timer
+function updateTimer() {
+const now = new Date();
+const diff = now - relationshipStart;
+
+const days = Math.floor(diff / (1000*60*60*24));
+const hours = Math.floor((diff / (1000*60*60)) % 24);
+const minutes = Math.floor((diff / (1000*60)) % 60);
+const seconds = Math.floor((diff / 1000) % 60);
+
+document.getElementById("loveTimer").innerHTML =
+days + " Days " + hours + " Hours " +
+minutes + " Minutes " + seconds + " Seconds ❤️";
+}
+setInterval(updateTimer, 1000);
+
+// Gift
+function openGift(){
+document.getElementById("giftContent").style.display="block";
+}
+
+// Valentine Game
+function yesAnswer(){
+document.getElementById("response").innerHTML="Yay!!! I love you forever ❤️";
+}
+function moveNo(){
+const btn=document.getElementById("noBtn");
+btn.style.position="absolute";
+btn.style.top=Math.random()*80+"%";
+btn.style.left=Math.random()*80+"%";
+}
+
+// Glitter Effect
+const canvas=document.getElementById("glitterCanvas");
+const ctx=canvas.getContext("2d");
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+let particles=[];
+for(let i=0;i<120;i++){
+particles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*3+1,
+d:Math.random()*2
+});
+}
+
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+ctx.fillStyle="white";
+ctx.beginPath();
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+ctx.moveTo(p.x,p.y);
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2,true);
+}
+ctx.fill();
+update();
+}
+
+function update(){
+for(let i=0;i<particles.length;i++){
+let p=particles[i];
+p.y+=p.d;
+if(p.y>canvas.height){
+p.y=0;
+p.x=Math.random()*canvas.width;
+}
+}
+}
+
+setInterval(draw,33);
+
+</script>
+
+</body>
+</html>
